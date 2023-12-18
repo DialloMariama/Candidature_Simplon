@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
+
 
 use App\Models\Formation;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFormationRequest;
 use App\Http\Requests\UpdateFormationRequest;
+
 
 class FormationController extends Controller
 {
@@ -27,9 +31,22 @@ class FormationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFormationRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'description' => 'required',
+        ]);
+
+        $formation = Formation::create([
+            'nom' => $request->nom,
+            'description' => $request->description,
+        ]);
+
+        return response()->json([
+            'message' => 'Formation enregistrer avec succés',
+            'formation' => $formation
+        ]);
     }
 
     /**
@@ -45,15 +62,16 @@ class FormationController extends Controller
      */
     public function edit(Formation $formation)
     {
-        //
+        
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateFormationRequest $request, Formation $formation)
+    public function update(Request $request, $id)
     {
-        //
+        
+
     }
 
     /**

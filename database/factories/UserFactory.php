@@ -28,6 +28,7 @@ class UserFactory extends Factory
             'nom' => ('Mariama'),
             'prenom' => ('DIALLO'),
             'telephone' => ('774958198'),
+            'role' => ('admin'),
             'email' => ('maridialloisidk@gmail.com'),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
