@@ -17,7 +17,10 @@ class FormationController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'message' => 'Liste de toutes les formations',
+            'formation' => Formation::all()
+        ]);
     }
 
     /**
@@ -91,8 +94,18 @@ class FormationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Formation $formation)
+    public function destroy($id)
     {
-        //
+        $formation = Formation::findOrFail($id);
+        if($formation->delete()){
+            return response()->json([
+                'message'=> 'Formation supprimée',
+            ]);
+        }else{
+            return response()->json([
+                'message'=> 'Formation non supprimée',
+            ],404);
+        }
+        
     }
 }
