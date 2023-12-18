@@ -24,9 +24,10 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('refresh', 'refresh');
 
 });
+Route::get('indexFormation',[FormationController::class, 'index']);
 Route::post('storeFormation',[FormationController::class, 'store']);
-Route::post('updateFormation/{id}',[FormationController::class, 'update']);
-Route::put('destroyFormation/{id}',[FormationController::class, 'destroy']);
+Route::put('updateFormation/{id}',[FormationController::class, 'update']);
+Route::delete('destroyFormation/{id}',[FormationController::class, 'destroy']);
 
 
 
