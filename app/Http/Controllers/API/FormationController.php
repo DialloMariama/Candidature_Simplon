@@ -68,10 +68,23 @@ class FormationController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $formation = Formation::findOrFail($id);
         $request->validate([
             'nom' => 'required|string|max:255',
             'description' => 'required',
         ]);
+        $formation->nom = $request->input('nom');
+        $formation->description = $request->input('description');
+        if($formation->update()){
+            return response()->json([
+                'formation'=>$formation,
+                'message'=> 'Formation modifié',
+            ]);
+        }else{
+            return response()->json([
+                'message'=> 'Formation non modifié',
+            ],404);
+        }
         
     }
 

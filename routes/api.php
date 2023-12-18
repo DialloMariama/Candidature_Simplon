@@ -25,6 +25,10 @@ Route::controller(AuthController::class)->group(function () {
 
 });
 Route::post('storeFormation',[FormationController::class, 'store']);
+Route::post('updateFormation/{id}',[FormationController::class, 'update']);
+Route::put('destroyFormation/{id}',[FormationController::class, 'destroy']);
+
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
