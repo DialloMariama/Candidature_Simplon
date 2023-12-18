@@ -37,12 +37,10 @@ class FormationController extends Controller
             'nom' => 'required|string|max:255',
             'description' => 'required',
         ]);
-
         $formation = Formation::create([
             'nom' => $request->nom,
             'description' => $request->description,
         ]);
-
         return response()->json([
             'message' => 'Formation enregistrer avec succés',
             'formation' => $formation
@@ -70,8 +68,11 @@ class FormationController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'description' => 'required',
+        ]);
         
-
     }
 
     /**
