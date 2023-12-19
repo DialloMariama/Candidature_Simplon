@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\FormationController;
+use App\Http\Controllers\API\FormationUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,20 +17,26 @@ use App\Http\Controllers\API\FormationController;
 |
 */
 
-
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
-    Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
+    Route::post('me', 'me');
+});
+
+Route::middleware('auth:api','admin')->group(function(){
+    Route::post('logout',[AuthController::class, 'logout']);
+    
+    Route::get('indexFormation',[FormationController::class, 'index']);
+    Route::post('storeFormation',[FormationController::class, 'store']);
+    Route::put('updateFormation/{id}',[FormationController::class, 'update']);
+    Route::delete('destroyFormation/{id}',[FormationController::class, 'destroy']);
+});
+
+Route::middleware('auth:api','candidat')->group(function(){
+Route::post('storeCandidat',[FormationUserController::class, 'store']);
 
 });
-Route::get('indexFormation',[FormationController::class, 'index']);
-Route::post('storeFormation',[FormationController::class, 'store']);
-Route::put('updateFormation/{id}',[FormationController::class, 'update']);
-Route::delete('destroyFormation/{id}',[FormationController::class, 'destroy']);
-
-
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

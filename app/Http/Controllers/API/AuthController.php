@@ -24,7 +24,7 @@ class AuthController extends Controller
         ]);
         $credentials = $request->only('email', 'password');
         $token = Auth::attempt($credentials);
-        
+
         if (!$token) {
             return response()->json([
                 'message' => 'Unauthorized',
@@ -66,7 +66,10 @@ class AuthController extends Controller
             'user' => $user
         ]);
     }
-
+    public function me()
+    {
+        return response()->json(auth()->user());
+    }
     public function logout()
     {
         Auth::logout();
@@ -85,7 +88,4 @@ class AuthController extends Controller
             ]
         ]);
     }
-
-
-    
 }
