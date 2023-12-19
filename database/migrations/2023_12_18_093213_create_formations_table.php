@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->text('description');
-            $table->enum('etat',['accepte', 'refuse'])->default('accepte');
+            $table->integer('duree');
+            $table->enum('etat',['En_cours', 'Cloture', 'Termine'])->default('En_cours');
             $table->timestamps();
         });
     }

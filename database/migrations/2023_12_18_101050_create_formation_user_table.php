@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('formation_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('formation_id')->references('id')->on('formations')->onDelete('cascade');
+            $table->enum('etat',['accepte', 'refuse','en_cours'])->default('en_cours');
             $table->timestamps();
         });
     }
