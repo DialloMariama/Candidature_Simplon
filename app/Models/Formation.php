@@ -11,8 +11,9 @@ class Formation extends Model
     protected $fillable = [
         'nom',
         'description',
-        'etat',
+        'duree',
     ];
+    
 
     public function users(){
         return $this->belongsToMany(User::class);

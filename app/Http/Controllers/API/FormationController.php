@@ -39,10 +39,12 @@ class FormationController extends Controller
         $request->validate([
             'nom' => 'required|string|max:255',
             'description' => 'required',
+            'duree' => 'required|integer',
         ]);
         $formation = Formation::create([
             'nom' => $request->nom,
             'description' => $request->description,
+            'duree' => $request->duree,
         ]);
         return response()->json([
             'message' => 'Formation enregistrer avec succés',
