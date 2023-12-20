@@ -12,15 +12,15 @@ use Illuminate\Support\Facades\Auth;
 class FormationUserController extends Controller
 {
     public function index()
-{
-    $candidatures = FormationUser::all();
+    {
+        $candidatures = FormationUser::all();
 
-    return response()->json([
-        'status_code' => 200,
-        'status_message' => 'Liste des candidatures',
-        'data' => $candidatures,
-    ]);
-}
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Liste des candidatures',
+            'data' => $candidatures,
+        ]);
+    }
 
 
 
@@ -54,98 +54,73 @@ class FormationUserController extends Controller
         }
     }
 
-    // public function acceptCandidature(Request $request, $id)
-    // {
-    //     try {
-    //         $candidature = FormationUser::findOrFail($id);
+    public function accepterCandidature(FormationUser $candidature)
+    {
+        if ($candidature->etat === 'en_cours') {
+            $candidature->etat = 'accepte';
+            if ($candidature->save()) {
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'La candidature a été acceptée avec succès',
+                    'data' => $candidature,
+                ]);
+            } else {
+                return response()->json([
+                    'status_code' => 500,
+                    'status_message' => 'Erreur lors de l\'acceptation de la candidature',
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status_code' => 400,
+                'status_message' => 'La candidature a déjà été traitée.',
+            ]);
+        }
+    }
 
-    //         if (Auth::user()->id === $candidature->formation->user_id) {
-    //             if ($candidature->etat === 'En_cours') {
-    //                 $candidature->etat = 'accepte';
-    //                 $candidature->save();
-
-    //                 return response()->json([
-    //                     'status_code' => 200,
-    //                     'status_message' => 'La candidature a été acceptée avec succès',
-    //                     'data' => $candidature,
-    //                 ]);
-    //             } else {
-    //                 return response()->json([
-    //                     'status_code' => 400,
-    //                     'status_message' => 'La candidature a déjà été traitée.',
-    //                 ]);
-    //             }
-    //         } else {
-    //             return response()->json([
-    //                 'status_code' => 403,
-    //                 'status_message' => 'Vous n\'êtes pas autorisé à accepter cette candidature',
-    //             ]);
-    //         }
-    //     } catch (Exception $e) {
-    //         return response()->json([
-    //             'status_code' => 500,
-    //             'status_message' => 'Erreur lors de l\'acceptation de la candidature',
-    //             'error' => $e->getMessage(),
-    //         ]);
-    //     }
-    // }
-
-//     public function rejectCandidature(Request $request, $id)
-// {
-//     try {
-//         $candidature = FormationUser::findOrFail($id);
-//         // dd($candidature);
-//         // dd(Auth::user()->id, $candidature->formation->user_id);
-//         if (Auth::user()->id === $candidature->formation->user_id) {
-//             if ($candidature->formation && $candidature->etat === 'En_cours') {
-//                 $candidature->etat = 'refuse';
-//                 $candidature->save();
-
-//                 return response()->json([
-//                     'status_code' => 200,
-//                     'status_message' => 'La candidature a été refusée avec succès',
-//                     'data' => $candidature,
-//                 ]);
-//             } else {
-//                 return response()->json([
-//                     'status_code' => 400,
-//                     'status_message' => 'La candidature n\'a pas de formation associée ou a déjà été traitée.',
-//                 ]);
-//             }
-//         } else {
-//             return response()->json([
-//                 'status_code' => 403,
-//                 'status_message' => 'Vous n\'êtes pas autorisé à refuser cette candidature',
-//             ]);
-//         }
-//     } catch (Exception $e) {
-//         return response()->json([
-//             'status_code' => 500,
-//             'status_message' => 'Erreur lors du refus de la candidature',
-//             'error' => 'Une erreur s\'est produite lors du traitement de votre demande.',
-//         ]);
-//     }
-// }
-public function acceptedCandidatures()
-{
-    $acceptedCandidatures = FormationUser::where('etat', 'accepte')->get();
-
-    return response()->json([
-        'status_code' => 200,
-        'status_message' => 'Liste des candidatures acceptées',
-        'data' => $acceptedCandidatures,
-    ]);
-}
-public function rejectedCandidatures()
-{
-    $rejectedCandidatures = FormationUser::where('etat', 'refuse')->get();
-
-    return response()->json([
-        'status_code' => 200,
-        'status_message' => 'Liste des candidatures refusées',
-        'data' => $rejectedCandidatures,
-    ]);
-}
+    public function refuserCandidature(FormationUser $candidature)
+    {
+        if ($candidature->etat === 'en_cours') {
+            $candidature->etat = 'refuse';
+            if ($candidature->save()) {
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'La candidature a été refusée avec succès',
+                    'data' => $candidature,
+                ]);
+            } else {
+                return response()->json([
+                    'status_code' => 500,
+                    'status_message' => 'Erreur lors du refus de la candidature',
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status_code' => 400,
+                'status_message' => 'La candidature a déjà été traitée.',
+            ]);
+        }
+    }
 
 
+    public function acceptedCandidatures()
+    {
+        $acceptedCandidatures = FormationUser::where('etat', 'accepte')->get();
+
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Liste des candidatures acceptées',
+            'data' => $acceptedCandidatures,
+        ]);
+    }
+    public function rejectedCandidatures()
+    {
+        $rejectedCandidatures = FormationUser::where('etat', 'refuse')->get();
+
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Liste des candidatures refusées',
+            'data' => $rejectedCandidatures,
+        ]);
+    }
 }
