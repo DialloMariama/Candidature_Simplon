@@ -9,8 +9,44 @@ use App\Models\Formation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * @OA\Tag(
+ *      name="Authentification",
+ *     description="Points de terminaison API pour l'authentification ,l'inscription affichage des informations, la deconnexion et raffrechissement des tokens des utilisateurs"
+ * )
+ */
 class AuthController extends Controller
 {
+     /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     tags={"Authentification"},
+     *     summary="Connecter un utilisateur existant",
+     *     description="Connectez-vous avec un e-mail et un mot de passe pour obtenir un jeton d'authentification",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="email", type="string", example="utilisateur@example.com"),
+     *                 @OA\Property(property="password", type="string", example="motdepasse"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Connexion réussie",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="user", type="object", description="Détails de l'utilisateur"),
+     *             @OA\Property(property="authorization", type="object", description="Détails d'autorisation"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Non autorisé",
+     *     ),
+     * )
+     */
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
@@ -41,6 +77,34 @@ class AuthController extends Controller
         ]);
     }
 
+     /**
+     * @OA\Post(
+     *     path="/api/register",
+     *     summary="Enregistrer un nouvel utilisateur",
+     *     tags={"Authentification"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"matricule", "nom", "prenom", "telephone", "email", "password"},
+     *             @OA\Property(property="matricule", type="string"),
+     *             @OA\Property(property="nom", type="string"),
+     *             @OA\Property(property="prenom", type="string"),
+     *             @OA\Property(property="telephone", type="string"),
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="password", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="User created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="user", type="object")
+     *         )
+     *     )
+     * )
+     */
+
     public function register(Request $request)
     {
         $request->validate([
@@ -66,10 +130,39 @@ class AuthController extends Controller
             'user' => $user
         ]);
     }
+     /**
+     * @OA\Get(
+     *     path="/api/me",
+     *     summary="Afficher les informations de l'utilisateur connecté",
+     *     tags={"Authentification"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Détails de l'utilisateur connecté",
+     *         @OA\JsonContent(
+     *             type="object"
+     *         )
+     *     )
+     * )
+     */
     public function me()
     {
         return response()->json(auth()->user());
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/logout",
+     *     summary="Déconnexion d'un utilisateur",
+     *     tags={"Authentification"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Déconnexion réussie",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string")
+     *         )
+     *     )
+     * )
+     */
     public function logout()
     {
         Auth::logout();
@@ -77,6 +170,20 @@ class AuthController extends Controller
             'message' => 'Successfully logged out',
         ]);
     }
+    /**
+     * @OA\Post(
+     *     path="/api/refresh",
+     *     summary="Actualiser le jeton d'authentification",
+     *     tags={"Authentification"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Jeton d'authentification actualisé",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="user", type="object")
+     *         )
+     *     )
+     * )
+     */
 
     public function refresh()
     {
