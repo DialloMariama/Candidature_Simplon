@@ -29,9 +29,9 @@ Route::middleware('auth:api', 'admin')->group(function () {
     Route::get('indexFormation', [FormationController::class, 'index']);
     Route::post('storeFormation', [FormationController::class, 'store']);
     Route::put('updateFormation/{id}', [FormationController::class, 'update']);
-    Route::delete('destroyFormation/{id}', [FormationController::class, 'destroy']);
-    // Route::post('acceptCandidature/{id}', [FormationUserController::class, 'acceptCandidature']);
-    // Route::post('rejectCandidature/{id}', [FormationUserController::class, 'rejectCandidature']);
+    Route::delete('destroyFormation/{id}', [FormationController::class, 'destroy']); 
+    Route::post('accepterCandidature/{candidature}', [FormationUserController::class, 'accepterCandidature']);
+    Route::post('refuserCandidature/{candidature}', [FormationUserController::class, 'refuserCandidature']);
     Route::get('candidatures', [FormationUserController::class, 'index']);
     Route::get('candidaturesAcceptees', [FormationUserController::class, 'acceptedCandidatures']);
     Route::get('candidaturesRejetees', [FormationUserController::class, 'rejectedCandidatures']);
