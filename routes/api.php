@@ -26,17 +26,16 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::middleware('auth:api', 'admin')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::get('indexFormation', [FormationController::class, 'index']);
-    Route::post('storeFormation', [FormationController::class, 'store']);
-    Route::put('updateFormation/{id}', [FormationController::class, 'update']);
-    Route::delete('destroyFormation/{id}', [FormationController::class, 'destroy']); 
-    Route::post('accepterCandidature/{candidature}', [FormationUserController::class, 'accepterCandidature']);
-    Route::post('refuserCandidature/{candidature}', [FormationUserController::class, 'refuserCandidature']);
+    Route::get('formations', [FormationController::class, 'index']);
+    Route::put('formations/{id}', [FormationController::class, 'update']);
+    Route::delete('formations/{id}', [FormationController::class, 'destroy']); 
+    Route::put('AccepterCandidatures/{candidature}', [FormationUserController::class, 'accepterCandidature']);
+    Route::put('Refusercandidatures/{candidature}', [FormationUserController::class, 'refuserCandidature']);
     Route::get('candidatures', [FormationUserController::class, 'index']);
     Route::get('candidaturesAcceptees', [FormationUserController::class, 'acceptedCandidatures']);
     Route::get('candidaturesRejetees', [FormationUserController::class, 'rejectedCandidatures']);
 });
-
+Route::post('formations', [FormationController::class, 'store']);
 Route::middleware('auth:api', 'candidat')->group(function () {
     Route::post('storeCandidat', [FormationUserController::class, 'store']);
     Route::post('logout', [AuthController::class, 'logout']);
