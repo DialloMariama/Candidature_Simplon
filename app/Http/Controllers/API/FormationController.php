@@ -166,9 +166,13 @@ class FormationController extends Controller
         $request->validate([
             'nom' => 'required|string|max:255',
             'description' => 'required',
+            'duree' => 'required',
+
         ]);
         $formation->nom = $request->input('nom');
         $formation->description = $request->input('description');
+        $formation->duree = $request->input('duree');
+
         if($formation->update()){
             return response()->json([
                 'formation'=>$formation,

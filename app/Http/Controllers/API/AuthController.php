@@ -104,11 +104,17 @@ class AuthController extends Controller
      *     )
      * )
      */
-
+    private function generateMatricule()
+    {
+        $currentYear = date('Y');
+        $lastUserId = User::max('id');
+        $matricule = $lastUserId . $currentYear . 'Simplon';
+        return $matricule;
+    }
     public function register(Request $request)
     {
         $request->validate([
-            'matricule' => 'required|string|max:20',
+            // 'matricule' => 'required|string|max:20',
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
             'telephone' => 'required|string|max:14',
@@ -117,7 +123,7 @@ class AuthController extends Controller
         ]);
 
         $user = User::create([
-            'matricule' => $request->matricule,
+            'matricule' => $this->generateMatricule(),
             'nom' => $request->nom,
             'prenom' => $request->prenom,
             'telephone' => $request->telephone,
@@ -189,7 +195,7 @@ class AuthController extends Controller
     {
         return response()->json([
             'user' => Auth::user(),
-            'authorisation' => [
+            'authorization' => [
                 'token' => Auth::refresh(),
                 'type' => 'bearer',
             ]
