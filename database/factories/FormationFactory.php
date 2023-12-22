@@ -17,7 +17,9 @@ class FormationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nom' => ('Devops'),
+            'description' => ('Devloppeur et operation'),
+            'duree' => 5,
         ];
     }
 }
