@@ -1,5 +1,23 @@
 {
     "openapi": "3.0.0",
+    "info": {
+        "title": "endPoind ",
+        "version": "1.0"
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
     "paths": {
         "/api/login": {
             "post": {
@@ -62,7 +80,7 @@
                     "Authentification"
                 ],
                 "summary": "Enregistrer un nouvel utilisateur",
-                "operationId": "a718f172ff3ac464d723835815f8fb57",
+                "operationId": "0363ee2bb78ef3b36107c600e9fbb3ba",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -123,13 +141,13 @@
                 }
             }
         },
-        "/api/me": {
+        "/api/informationUser": {
             "get": {
                 "tags": [
                     "Authentification"
                 ],
                 "summary": "Afficher les informations de l'utilisateur connecté",
-                "operationId": "f606b7972b0f95109c9cd5b591061f41",
+                "operationId": "3edcdd845e19df6c059e7d45263e7f14",
                 "responses": {
                     "200": {
                         "description": "Détails de l'utilisateur connecté",
@@ -202,7 +220,7 @@
                     "Formations"
                 ],
                 "summary": "Liste de toutes les formations",
-                "operationId": "e27e45808c70a2393a4a6ec4d840d4c9",
+                "operationId": "90c2f2f96d8e199fd587cd0668b67024",
                 "responses": {
                     "200": {
                         "description": "Liste de toutes les formations",
@@ -234,7 +252,35 @@
                 "summary": "Enregistrer une nouvelle formation",
                 "operationId": "4c8624ac9434cc4b60700a82353133a9",
                 "requestBody": {
-                    "$ref": "#/components/requestBodies/FormationRequest"
+                    "request": "FormationRequest",
+                    "description": "Données requises pour créer ou mettre à jour une formation",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nom",
+                                    "description",
+                                    "duree"
+                                ],
+                                "properties": {
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "Nom de la formation"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Description de la formation"
+                                    },
+                                    "duree": {
+                                        "type": "integer",
+                                        "example": 30
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
@@ -406,13 +452,15 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/storeCandidat": {
             "post": {
                 "tags": [
                     "Candidatures"
                 ],
                 "summary": "Effectuer une candidature",
-                "operationId": "c965faad21045fd6bbe7469d34e98abe",
+                "operationId": "4869feb4b2257cba258baf7b66134f88",
                 "requestBody": {
                     "required": true,
                     "content": {

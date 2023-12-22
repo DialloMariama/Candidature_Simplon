@@ -26,5 +26,25 @@ class UserTest extends TestCase
         $response = $this->get('/api/listeCandidat');
         $response->assertStatus(200);
     }
+
+    public function testEmailUnique()
+    {
+        $existingUser = User::factory()->create(['email' => 'test@example.com', 'role' => 'candidat']);
+
+        $newUser = User::factory()->make(['email' => 'test@example.com', 'role' => 'candidat']);
+
+        $this->assertFalse($newUser->save());
+
+        $this->assertNotNull($newUser->getError('email'));
+    }
+
+    public function testPrenomIsString()
+    {
+        $candidat = User::factory()->make(['prenom' => 123]);
+
+        $this->assertFalse($candidat->save());
+
+        $this->assertNotNull($candidat->getError('prenom'));
+    }
     
 }

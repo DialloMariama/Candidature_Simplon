@@ -49,7 +49,7 @@ class FormationUserController extends Controller
     }
  /**
      * @OA\Post(
-     *     path="/api/candidatures",
+     *     path="/api/storeCandidat",
      *     summary="Effectuer une candidature",
      *     tags={"Candidatures"},
      *     @OA\RequestBody(
