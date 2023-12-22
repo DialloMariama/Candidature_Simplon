@@ -19,11 +19,11 @@ class FormationUserTest extends TestCase
         $response->assertStatus(200);
     }
 
-    // public function testListeCandidature()
-    // {
-    //     $admin = User::factory()->create();
-    //     $this->actingAs($admin, 'api');
-    //     $response = $this->get('/api/candidatures');
-    //     $response->assertStatus(200);
-    // }
+    public function testListeCandidature()
+    {
+        $admin = User::factory()->create();
+        $this->actingAs($admin, 'api');
+        $response = $this->get('/api/candidatures');
+        $response->assertStatus(200);
+    }
 }
