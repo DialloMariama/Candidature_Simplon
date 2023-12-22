@@ -21,11 +21,12 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
     Route::post('refresh', 'refresh');
-    Route::post('me', 'me');
+    Route::post('informationUser', 'informationUser');
 });
 
 Route::middleware('auth:api', 'admin')->group(function () {
     Route::post('auth/logout', [AuthController::class, 'logout']);
+    Route::get('listeCandidat', [FormationController::class, 'listeCandidat']);
     Route::post('formations', [FormationController::class, 'store']);
     Route::put('formations/{id}', [FormationController::class, 'update']);
     Route::delete('formations/{id}', [FormationController::class, 'destroy']);

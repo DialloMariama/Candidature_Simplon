@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 
+use App\Models\User;
 use App\Models\Formation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,6 +38,14 @@ class FormationController extends Controller
      *     )
      * )
      */
+
+     public function listeCandidat()
+     {
+         return response()->json([
+             'message' => 'Liste des candidats',
+             'User' => User::where('role', '!=', 'admin')->get()
+         ]);
+     }
     public function index()
     {
         return response()->json([
@@ -61,7 +70,17 @@ class FormationController extends Controller
      *     path="/api/formations",
      *     summary="Enregistrer une nouvelle formation",
      *     tags={"Formations"},
-     *     requestBody={"$ref": "#/components/requestBodies/FormationRequest"},
+     *     @OA\RequestBody(
+     *     request="FormationRequest",
+     *     required=true,
+     *     description="Données requises pour créer ou mettre à jour une formation",
+     *     @OA\JsonContent(
+     *         required={"nom", "description", "duree"},
+     *         @OA\Property(property="nom", type="string", example="Nom de la formation"),
+     *         @OA\Property(property="description", type="string", example="Description de la formation"),
+     *         @OA\Property(property="duree", type="integer", example=30)
+     *     )
+     * ),
      *     @OA\Response(
      *         response=200,
      *         description="Formation enregistrée avec succès",
