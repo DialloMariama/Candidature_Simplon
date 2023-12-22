@@ -138,7 +138,7 @@ class AuthController extends Controller
     }
      /**
      * @OA\Get(
-     *     path="/api/me",
+     *     path="/api/informationUser",
      *     summary="Afficher les informations de l'utilisateur connecté",
      *     tags={"Authentification"},
      *     @OA\Response(
@@ -150,7 +150,7 @@ class AuthController extends Controller
      *     )
      * )
      */
-    public function me()
+    public function informationUser()
     {
         return response()->json(auth()->user());
     }
@@ -201,4 +201,6 @@ class AuthController extends Controller
             ]
         ]);
     }
+
+   
 }
