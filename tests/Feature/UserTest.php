@@ -19,12 +19,12 @@ class UserTest extends TestCase
         $response->assertStatus(200);
     }
 
-    // public function testListeCandidat()
-    // {
-    //     $admin = User::factory()->create();
-    //     $this->actingAs($admin, 'api');
-    //     $response = $this->get('/api/listeCandidat');
-    //     $response->assertStatus(200);
-    // }
+    public function testListeCandidat()
+    {
+        $admin = User::factory()->create();
+        $this->actingAs($admin, 'api');
+        $response = $this->get('/api/listeCandidat');
+        $response->assertStatus(200);
+    }
     
 }
